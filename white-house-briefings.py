@@ -5,9 +5,20 @@ result = requests.get("https://whitehouse.gov/briefing-room/statements-releases/
 src = result.content
 
 soup = BeautifulSoup(src, 'lxml') 
-links = soup.find_all("a")
+links = soup.find_all("h2")
+
+urls = []
+
 
 for link in links:
-    if "Biden" in link.text:
+    link = link.find('a')
+
+    if link:
+        link = link.attrs['href']
         print(link)
-        print(link.attrs['href'])
+        urls.append(link)
+    else:
+        continue
+
+print(urls)
+
